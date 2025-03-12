@@ -1,9 +1,8 @@
-import { Tabs } from 'expo-router';
-import React, { ReactNode } from 'react';
-import { Platform, Pressable } from 'react-native';
+import TabBar from '@/components/ui/TabBar';
 import { Colors } from '@/constants/Colors';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import TabBar from '@/components/ui/TabBar';
+import { Tabs } from 'expo-router';
+import React from 'react';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -11,17 +10,10 @@ export default function TabLayout() {
   return (
     <Tabs
       tabBar={(props) => (<TabBar {...props} />)}
-    // screenOptions={{
-    //   tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-    //   headerShown: false,
-    //   tabBarStyle: Platform.select({
-    //     ios: {
-    //       // Use a transparent background on iOS to show the blur effect
-    //       position: 'absolute',
-    //     },
-    //     default: {},
-    //   }),
-    // }}
+      screenOptions={{
+        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        headerShown: false,
+      }}
     >
       <Tabs.Screen
         name="index"
@@ -39,6 +31,12 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
+        }}
+      />
+      <Tabs.Screen
+        name="post"
+        options={{
+          title: 'Post',
         }}
       />
     </Tabs>

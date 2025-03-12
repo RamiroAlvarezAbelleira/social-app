@@ -12,5 +12,5 @@ export function ThemedView({ style, lightColor, darkColor, ...otherProps }: Them
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
   const insets = useSafeAreaInsets()
 
-  return <View style={[{ backgroundColor, paddingTop: insets.top, paddingBottom: insets.bottom }, style]} {...otherProps} />;
+  return <View style={[{ backgroundColor, paddingTop: insets.top }, style]} {...otherProps} />;
 }
