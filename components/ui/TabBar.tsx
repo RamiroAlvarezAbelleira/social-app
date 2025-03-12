@@ -1,17 +1,20 @@
-import { View, Text } from 'react-native'
-import React from 'react'
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
-import { useLinkBuilder } from '@react-navigation/native';
 import { PlatformPressable } from '@react-navigation/elements';
-import { ThemedText } from './ThemedText';
+import { useLinkBuilder } from '@react-navigation/native';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { ThemedText } from './ThemedText';
+import { useThemeColor } from '@/hooks/useThemeColor';
+
 
 const TabBar = (props: BottomTabBarProps) => {
-      const insets = useSafeAreaInsets()
+    const insets = useSafeAreaInsets()
+    const color = useThemeColor({light: "#fff", dark: "#000"}, 'background')
 
     const { buildHref } = useLinkBuilder();
     return (
-        <View style={{ flexDirection: 'row', paddingBottom: insets.bottom }}>
+        <View style={[styles.container, {paddingBottom: insets.bottom, backgroundColor: `${color}`, paddingTop: 15 }]}>
             {props.state.routes.map((route, index) => {
                 const { options } = props.descriptors[route.key];
 
@@ -51,9 +54,12 @@ const TabBar = (props: BottomTabBarProps) => {
                         testID={options.tabBarButtonTestID}
                         onPress={onPress}
                         onLongPress={onLongPress}
-                        style={{ flex: 1 }}
+                        style={{ flex: 1, alignItems: "center"}}
                         key={label}
                     >
+                        <ThemedText>
+                            ICON
+                        </ThemedText>
                         <ThemedText>
                             {label}
                         </ThemedText>
@@ -63,5 +69,11 @@ const TabBar = (props: BottomTabBarProps) => {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    container: { 
+        flexDirection: 'row',
+    }
+})
 
 export default TabBar
