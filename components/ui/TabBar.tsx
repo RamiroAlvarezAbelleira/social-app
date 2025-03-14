@@ -10,11 +10,11 @@ import { useThemeColor } from '@/hooks/useThemeColor';
 
 const TabBar = (props: BottomTabBarProps) => {
     const insets = useSafeAreaInsets()
-    const color = useThemeColor({light: "#fff", dark: "#000"}, 'background')
+    const color = useThemeColor({ light: "#fff", dark: "#000" }, 'background')
 
     const { buildHref } = useLinkBuilder();
     return (
-        <View style={[styles.container, {paddingBottom: insets.bottom, backgroundColor: `${color}`, paddingTop: 15 }]}>
+        <View style={[styles.container, { paddingBottom: insets.bottom, backgroundColor: `${color}`, paddingTop: 15 }]}>
             {props.state.routes.map((route, index) => {
                 const { options } = props.descriptors[route.key];
 
@@ -46,6 +46,8 @@ const TabBar = (props: BottomTabBarProps) => {
                     });
                 };
 
+                const IconComponent = options.tabBarIcon ? options.tabBarIcon({ focused: isFocused, color: isFocused ? 'blue' : 'gray', size: 24 }) : null;
+
                 return (
                     <PlatformPressable
                         href={buildHref(route.name, route.params)}
@@ -54,12 +56,10 @@ const TabBar = (props: BottomTabBarProps) => {
                         testID={options.tabBarButtonTestID}
                         onPress={onPress}
                         onLongPress={onLongPress}
-                        style={{ flex: 1, alignItems: "center"}}
+                        style={{ flex: 1, alignItems: "center" }}
                         key={label}
                     >
-                        <ThemedText>
-                            ICON
-                        </ThemedText>
+                        {IconComponent}
                         <ThemedText>
                             {label}
                         </ThemedText>
@@ -71,7 +71,7 @@ const TabBar = (props: BottomTabBarProps) => {
 }
 
 const styles = StyleSheet.create({
-    container: { 
+    container: {
         flexDirection: 'row',
     }
 })
