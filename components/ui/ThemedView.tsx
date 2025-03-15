@@ -6,12 +6,19 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 export type ThemedViewProps = ViewProps & {
   lightColor?: string;
   darkColor?: string;
+  className?: string;
   mainContainer?: boolean;
 };
 
-export function ThemedView({ style, lightColor, darkColor, mainContainer, ...otherProps }: ThemedViewProps) {
+export function ThemedView({ style, lightColor, className, darkColor, mainContainer, ...otherProps }: ThemedViewProps) {
   const backgroundColor = useThemeColor({ light: lightColor, dark: darkColor }, 'background');
   const insets = useSafeAreaInsets()
 
-  return <View style={[{ backgroundColor, paddingTop: mainContainer? insets.top : 0 }, style]} {...otherProps} />;
+  return (
+    <View
+      className={`${className}`}
+      style={[{ backgroundColor, paddingTop: mainContainer ? insets.top : 0 }, style]}
+      {...otherProps}
+    />
+  );
 }

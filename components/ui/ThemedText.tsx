@@ -32,7 +32,7 @@ export function ThemedText({
       case "link":
         return 'text-[16px] text-[#0a7ea4]'
       default:
-        return ''
+        return 'text-[16px] text-white'
     }
   }
 
@@ -40,7 +40,8 @@ export function ThemedText({
 
   return (
     <Text
-      className={`${className} text-[${color}] ${text}`}
+      className={`${className} ${text}`}
+      style={{color}}
       {...rest}
     />
   );

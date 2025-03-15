@@ -6,8 +6,8 @@ import { Image, StyleSheet, Text } from 'react-native'
 
 const PostCard = ({ message, repliesCount, likes, author: { firstName, lastName, profilePic, username } }: PostType) => {
     return (
-        <ThemedView>
-            <ThemedView>
+        <ThemedView className='gap-y-5 mx-4 mt-5 pb-5 border-b-[2px] border-b-[#0f0f0f]'>
+            <ThemedView className='flex-row items-center gap-x-4'>
                 <ThemedView>
                     <Image
                         source={{ uri: profilePic }}
@@ -16,22 +16,22 @@ const PostCard = ({ message, repliesCount, likes, author: { firstName, lastName,
                 </ThemedView>
                 <ThemedView>
                     <ThemedText>{firstName} {lastName}</ThemedText>
-                    <ThemedText>{username}</ThemedText>
+                    <ThemedText>@{username}</ThemedText>
                 </ThemedView>
             </ThemedView>
 
-            <ThemedView>
+            <ThemedView className='pl-4'>
                 <ThemedText>
                     {message}
                 </ThemedText>
             </ThemedView>
 
-            <ThemedView>
+            <ThemedView className='flex-row justify-between px-4'>
                 <ThemedView>
-                    <ThemedText>{likes}</ThemedText>
+                    <ThemedText>Likes {likes}</ThemedText>
                 </ThemedView>
                 <ThemedView>
-                    <ThemedText>{repliesCount}</ThemedText>
+                    <ThemedText>Replies {repliesCount}</ThemedText>
                 </ThemedView>
             </ThemedView>
 
