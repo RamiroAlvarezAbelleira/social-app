@@ -2,7 +2,7 @@ import React from 'react'
 import { ThemedView } from '../ui/ThemedView'
 import { ThemedText } from '../ui/ThemedText'
 import { PostType } from '@/types/post.types'
-import { Image, StyleSheet } from 'react-native'
+import { Image, StyleSheet, Text } from 'react-native'
 
 const PostCard = ({ message, repliesCount, likes, author: { firstName, lastName, profilePic, username } }: PostType) => {
     return (
@@ -11,12 +11,14 @@ const PostCard = ({ message, repliesCount, likes, author: { firstName, lastName,
                 <ThemedView>
                     <Image
                         source={{ uri: profilePic }}
-                        style={{ width: 80, height: 80 }}
+                        // style={{ width: 80, height: 80 }}
+                        className='w-[60px] h-[60px] rounded-full'
                     />
                 </ThemedView>
+                <Text className='text-white'>Holaaa</Text>
                 <ThemedView>
-                    <ThemedView>{firstName} {lastName}</ThemedView>
-                    <ThemedView>{username}</ThemedView>
+                    <ThemedText>{firstName} {lastName}</ThemedText>
+                    <ThemedText>{username}</ThemedText>
                 </ThemedView>
             </ThemedView>
 
