@@ -11,11 +11,9 @@ const PostCard = ({ message, repliesCount, likes, author: { firstName, lastName,
                 <ThemedView>
                     <Image
                         source={{ uri: profilePic }}
-                        // style={{ width: 80, height: 80 }}
                         className='w-[60px] h-[60px] rounded-full'
                     />
                 </ThemedView>
-                <Text className='text-white'>Holaaa</Text>
                 <ThemedView>
                     <ThemedText>{firstName} {lastName}</ThemedText>
                     <ThemedText>{username}</ThemedText>
