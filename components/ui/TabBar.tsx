@@ -56,13 +56,13 @@ const TabBar = (props: BottomTabBarProps) => {
                         testID={options.tabBarButtonTestID}
                         onPress={onPress}
                         onLongPress={onLongPress}
-                        style={{ flex: 1, alignItems: "center" }}
+                        style={{ flex: 1, alignItems: "center" ,backgroundColor: `${label === 'Post' && '#202020'}` }}
                         key={label}
                     >
                         {IconComponent}
-                        <ThemedText>
+                        {/* <ThemedText>
                             {label}
-                        </ThemedText>
+                        </ThemedText> */}
                     </PlatformPressable>
                 );
             })}

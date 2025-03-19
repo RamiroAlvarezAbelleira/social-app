@@ -22,7 +22,7 @@ export default function TabLayout() {
         options={{
           title: 'Home',
           tabBarIcon: () => (
-            <Icon name="home" size={24} color={color === "#fff" ? "#000" : "#fff"} />
+            <Icon name="home" size={30} color={color === "#fff" ? "#000" : "#fff"} />
           )
         }}
       />
@@ -31,16 +31,7 @@ export default function TabLayout() {
         options={{
           title: 'Explore',
           tabBarIcon: () => (
-            <Icon name="search1" size={24} color={color === "#fff" ? "#000" : "#fff"} />
-          )
-        }}
-      />
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Profile',
-          tabBarIcon: () => (
-            <Icon name="user" size={24} color={color === "#fff" ? "#000" : "#fff"} />
+            <Icon name="search1" size={30} color={color === "#fff" ? "#000" : "#fff"} />
           )
         }}
       />
@@ -49,7 +40,16 @@ export default function TabLayout() {
         options={{
           title: 'Post',
           tabBarIcon: () => (
-            <Icon name="message1" size={24} color={color === "#fff" ? "#000" : "#fff"} />
+            <Icon name="plus" size={30} color={color === "#fff" ? "#000" : "#fff"} />
+          )
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Profile',
+          tabBarIcon: () => (
+            <Icon name="user" size={30} color={color === "#fff" ? "#000" : "#fff"} />
           )
         }}
       />
