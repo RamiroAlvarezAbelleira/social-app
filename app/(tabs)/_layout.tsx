@@ -1,19 +1,14 @@
 import TabBar from '@/components/ui/TabBar';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-import { useThemeColor } from '@/hooks/useThemeColor';
 import { Tabs } from 'expo-router';
 import Icon from 'react-native-vector-icons/AntDesign';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-  const color = useThemeColor({ light: "#fff", dark: "#000" }, 'background')
 
   return (
     <Tabs
       tabBar={(props) => (<TabBar {...props} />)}
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        // tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
       }}
     >
@@ -21,8 +16,8 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: () => (
-            <Icon name="home" size={30} color={color === "#fff" ? "#000" : "#fff"} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="home" size={size} color={color} />
           )
         }}
       />
@@ -30,8 +25,8 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: 'Explore',
-          tabBarIcon: () => (
-            <Icon name="search1" size={30} color={color === "#fff" ? "#000" : "#fff"} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="search1" size={size} color={color} />
           )
         }}
       />
@@ -39,8 +34,8 @@ export default function TabLayout() {
         name="post"
         options={{
           title: 'Post',
-          tabBarIcon: () => (
-            <Icon name="plus" size={30} color={color === "#fff" ? "#000" : "#fff"} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="plus" size={30} color={color} />
           )
         }}
       />
@@ -48,8 +43,8 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: () => (
-            <Icon name="user" size={30} color={color === "#fff" ? "#000" : "#fff"} />
+          tabBarIcon: ({ color, size }) => (
+            <Icon name="user" size={size} color={color} />
           )
         }}
       />

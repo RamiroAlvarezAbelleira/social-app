@@ -6,11 +6,13 @@ import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { ThemedText } from './ThemedText';
 import { useThemeColor } from '@/hooks/useThemeColor';
+import { Colors } from '@/constants/Colors';
 
 
 const TabBar = (props: BottomTabBarProps) => {
     const insets = useSafeAreaInsets()
     const color = useThemeColor({ light: "#fff", dark: "#000" }, 'background')
+    const textColor = useThemeColor({ light: Colors.light.text, dark: Colors.dark.text }, 'text')
 
     const { buildHref } = useLinkBuilder();
     return (
@@ -46,7 +48,7 @@ const TabBar = (props: BottomTabBarProps) => {
                     });
                 };
 
-                const IconComponent = options.tabBarIcon ? options.tabBarIcon({ focused: isFocused, color: isFocused ? 'blue' : 'gray', size: 24 }) : null;
+                const IconComponent = options.tabBarIcon ? options.tabBarIcon({ focused: isFocused, color: isFocused ? textColor : '#909090', size: 30 }) : null;
 
                 return (
                     <PlatformPressable
@@ -56,7 +58,7 @@ const TabBar = (props: BottomTabBarProps) => {
                         testID={options.tabBarButtonTestID}
                         onPress={onPress}
                         onLongPress={onLongPress}
-                        style={{ flex: 1, alignItems: "center" ,backgroundColor: `${label === 'Post' && '#202020'}` }}
+                        style={{ alignItems: "center", backgroundColor: `${label === 'Post' && '#202020'}`, padding: 8, borderRadius: 8 }}
                         key={label}
                     >
                         {IconComponent}
@@ -73,6 +75,7 @@ const TabBar = (props: BottomTabBarProps) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
+        justifyContent: 'space-around',
     }
 })
 
