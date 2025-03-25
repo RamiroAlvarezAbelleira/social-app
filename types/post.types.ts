@@ -1,8 +1,8 @@
-import { User } from "./user.types";
+import { UserType } from "./user.types";
 
 export type PostType = {
     id: number;
-    author: User;
+    author: UserType;
     message: string;
     likes: number;
     repliesCount: number;

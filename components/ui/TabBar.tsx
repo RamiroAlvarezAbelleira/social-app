@@ -1,12 +1,11 @@
+import { Colors } from '@/constants/Colors';
+import { useThemeColor } from '@/hooks/useThemeColor';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
 import { useLinkBuilder } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { ThemedText } from './ThemedText';
-import { useThemeColor } from '@/hooks/useThemeColor';
-import { Colors } from '@/constants/Colors';
 
 
 const TabBar = (props: BottomTabBarProps) => {
@@ -62,9 +61,6 @@ const TabBar = (props: BottomTabBarProps) => {
                         key={label}
                     >
                         {IconComponent}
-                        {/* <ThemedText>
-                            {label}
-                        </ThemedText> */}
                     </PlatformPressable>
                 );
             })}
