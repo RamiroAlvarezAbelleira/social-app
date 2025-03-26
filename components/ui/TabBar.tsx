@@ -2,7 +2,7 @@ import { Colors } from '@/constants/Colors';
 import { useThemeColor } from '@/hooks/useThemeColor';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
 import { PlatformPressable } from '@react-navigation/elements';
-import { useLinkBuilder } from '@react-navigation/native';
+import { useLinkBuilder, useTheme } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -12,7 +12,8 @@ const TabBar = (props: BottomTabBarProps) => {
     const insets = useSafeAreaInsets()
     const color = useThemeColor({ light: "#fff", dark: "#000" }, 'background')
     const textColor = useThemeColor({ light: Colors.light.text, dark: Colors.dark.text }, 'text')
-
+    const {dark} = useTheme()
+    const postColor = dark ? "#202020" : "#e0e0e0"
     const { buildHref } = useLinkBuilder();
     return (
         <View style={[styles.container, { paddingBottom: insets.bottom, backgroundColor: `${color}`, paddingTop: 15 }]}>
@@ -57,7 +58,7 @@ const TabBar = (props: BottomTabBarProps) => {
                         testID={options.tabBarButtonTestID}
                         onPress={onPress}
                         onLongPress={onLongPress}
-                        style={{ alignItems: "center", backgroundColor: `${label === 'Post' && '#202020'}`, padding: 8, borderRadius: 8 }}
+                        style={{ alignItems: "center", backgroundColor: `${label === 'Post' && postColor}`, padding: 8, borderRadius: 8 }}
                         key={label}
                     >
                         {IconComponent}
