@@ -9,9 +9,9 @@ import User from '../users/User'
 const PostCard = ({ message, repliesCount, likes, author: { firstName, lastName, profilePic, username } }: PostType) => {
     const { colors } = useTheme();
     return (
-        <ThemedView 
-        className={`gap-y-5 mx-4 mt-5 pb-5 border-b-[2px]`}
-        style={{borderColor: colors.border}}
+        <ThemedView
+            className={`gap-y-5 mx-4 mt-5 pb-5 border-b-[2px]`}
+            style={{ borderColor: colors.border }}
         >
 
             <User profilePic={profilePic} firstName={firstName} lastName={lastName} username={username} />

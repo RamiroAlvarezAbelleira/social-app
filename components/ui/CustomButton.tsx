@@ -1,14 +1,15 @@
 import { useThemeColor } from '@/hooks/useThemeColor';
 import React, { ReactElement } from 'react';
-import { Pressable, useColorScheme } from 'react-native';
+import { Pressable, StyleProp, type ViewStyle } from 'react-native';
 import Animated, { useAnimatedStyle, useSharedValue, withSpring } from "react-native-reanimated";
 
-interface ButtonProps extends React.PropsWithChildren {
+interface ButtonProps extends React.PropsWithChildren, ViewStyle {
     onPressFunc: () => void,
-    children?: ReactElement
+    children?: ReactElement,
+    style?: StyleProp<ViewStyle> 
 }
 
-const CustomButton = ({ children, onPressFunc }: ButtonProps) => {
+const CustomButton = ({ children, onPressFunc, style }: ButtonProps) => {
 
     const BgColor = useThemeColor({light: "#151718" , dark: "#fff" }, "background")
 
@@ -33,6 +34,7 @@ const CustomButton = ({ children, onPressFunc }: ButtonProps) => {
                 style={[
                     animatedStyle,
                     { paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8, backgroundColor: BgColor },
+                    style
                 ]}
             >
                 {children}
