@@ -1,11 +1,12 @@
-import { ThemedText } from '@/components/ui/ThemedText'
 import { ThemedView } from '@/components/ui/ThemedView'
+import Profile from '@/components/users/Profile'
 import React from 'react'
+
 
 const profile = () => {
     return (
-        <ThemedView>
-            <ThemedText>Profile</ThemedText>
+        <ThemedView mainContainer>
+            <Profile />
         </ThemedView>
     )
 }
