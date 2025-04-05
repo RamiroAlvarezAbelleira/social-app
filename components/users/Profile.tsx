@@ -3,7 +3,7 @@ import { ThemedView } from '../ui/ThemedView'
 import User from './User'
 import { Image } from 'react-native'
 import { ThemedText } from '../ui/ThemedText'
-import HBar from '../ui/HBar'
+import HBar from '../ui/HBar/HBar'
 
 const mockUser = { firstName: "John", lastName: "Doe", username: "johndoe", profilePic: "https://randomuser.me/api/portraits/men/1.jpg" }
 
@@ -19,7 +19,7 @@ const Profile = () => {
                 />
                 <ThemedText darkColor='#c0c0c0'>3 Followers</ThemedText>
             </ThemedView>
-            <HBar tabs={["Posted", "Reposted", "Answers"]} />
+            <HBar tabs={["Posted", "Reposted", "Answers"]} defaultTab='Posted' />
         </ThemedView>
     )
 }

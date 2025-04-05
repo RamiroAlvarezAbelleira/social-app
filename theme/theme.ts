@@ -19,7 +19,7 @@ export const DarkTheme = {
     ...NavigationDarkTheme.colors,
     primary: "#1DA1F2",
     secondary: "#FFAD1F",
-    background: "#15202B",
+    background: "#151718",
     text: "#E1E8ED",
     border: "#38444D",
     customColor: "#A155B9", // 🎨 Agregado
