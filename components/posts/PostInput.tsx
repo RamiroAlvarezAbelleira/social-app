@@ -1,22 +1,28 @@
+import { useCreatePost } from '@/hooks/query/usePosts'
+import { useTheme } from '@react-navigation/native'
+import { useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'expo-router'
 import React, { useState } from 'react'
-import { ThemedView } from '../ui/ThemedView'
 import { TextInput } from 'react-native'
 import CustomButton from '../ui/CustomButton'
 import { ThemedText } from '../ui/ThemedText'
-import { useTheme } from '@react-navigation/native'
+import { ThemedView } from '../ui/ThemedView'
 import User from '../users/User'
-import { useCreatePost } from '@/hooks/query/usePosts'
 
 const PostInput = () => {
     const [message, setMessage] = useState<string>('')
-    const { mutate, isError, isSuccess, error, data, isPending } = useCreatePost()
+    const { mutate, isError, isPending } = useCreatePost()
     const { colors } = useTheme()
+    const router = useRouter()
+    const queryClient = useQueryClient()
     const onSubmit = () => {
         mutate(
             { message: message, userId: "67f6b4b9358a1571318f507a" },
             {
-                onSuccess: (data) => {
-                    console.log("Post creado con éxito:", data);
+                onSuccess: () => {
+                    queryClient.invalidateQueries({ queryKey: ['posts'] })
+
+                    router.replace('/')
                 },
                 onError: (error) => {
                     console.error("Error al crear el post:", error.message);
@@ -40,30 +46,24 @@ const PostInput = () => {
                         </ThemedView>
                         :
 
-                        isSuccess ?
+                        isError ?
                             <ThemedView className="h-3/4 items-center justify-center">
-                                <ThemedText>Post created Successfully</ThemedText>
+                                <ThemedText>There was an issue, please try again later</ThemedText>
                             </ThemedView>
                             :
 
-                            isError ?
-                                <ThemedView className="h-3/4 items-center justify-center">
-                                    <ThemedText>There was an issue, please try again later</ThemedText>
-                                </ThemedView>
-                                :
-
-                                <TextInput
-                                    multiline={true}
-                                    style={{
-                                        color: colors.text,
-                                        borderColor: colors.border,
-                                        textAlignVertical: "top"
-                                    }}
-                                    className='min-h-[200px] py-4 px-4 mt-2 font-semibold border-2 rounded-[8px]'
-                                    placeholder='Whats on your mind...'
-                                    placeholderTextColor={colors.text}
-                                    onChangeText={(text) => setMessage(text)}
-                                />
+                            <TextInput
+                                multiline={true}
+                                style={{
+                                    color: colors.text,
+                                    borderColor: colors.border,
+                                    textAlignVertical: "top"
+                                }}
+                                className='min-h-[200px] py-4 px-4 mt-2 font-semibold border-2 rounded-[8px]'
+                                placeholder='Whats on your mind...'
+                                placeholderTextColor={colors.text}
+                                onChangeText={(text) => setMessage(text)}
+                            />
                 }
 
             </ThemedView>

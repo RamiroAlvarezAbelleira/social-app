@@ -3,13 +3,12 @@ import HBar from "@/components/ui/HBar/HBar";
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
 import { usePosts } from "@/hooks/query/usePosts";
-import posts from "@/mocks/posts";
 import { FlatList } from "react-native";
 
 export default function HomeScreen() {
   const { isLoading, isError, data } = usePosts()
   return (
-    <ThemedView mainContainer>
+    <ThemedView mainContainer className="flex-1">
 
       <HBar tabs={["For You", "Followed"]} defaultTab="For You" />
       {
