@@ -7,3 +7,8 @@ export type PostType = {
     likes: Array<string>;
     replies: Array<string>;
 }
+
+export type createPostType = {
+    message: string,
+    userId: string
+}

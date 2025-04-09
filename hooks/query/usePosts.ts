@@ -1,5 +1,5 @@
-import { fetchPosts } from "@/services/posts";
-import { useQuery } from "@tanstack/react-query";
+import { createPost, fetchPosts } from "@/services/posts";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 
 export const usePosts = () => {
@@ -7,4 +7,10 @@ export const usePosts = () => {
         queryKey: ['posts'],
         queryFn: fetchPosts
     })
-} 
+}
+
+export const useCreatePost = () => {
+    return useMutation({
+        mutationFn: createPost
+    })
+}
