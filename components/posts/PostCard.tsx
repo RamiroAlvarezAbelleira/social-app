@@ -6,7 +6,7 @@ import { ThemedText } from '../ui/ThemedText'
 import { ThemedView } from '../ui/ThemedView'
 import User from '../users/User'
 
-const PostCard = ({ message, repliesCount, likes, author: { firstName, lastName, profilePic, username } }: PostType) => {
+const PostCard = ({ message, replies, likes, author: { firstName, lastName, profilePicUrl, username } }: PostType) => {
     const { colors } = useTheme();
     return (
         <ThemedView
@@ -14,7 +14,7 @@ const PostCard = ({ message, repliesCount, likes, author: { firstName, lastName,
             style={{ borderColor: colors.border }}
         >
 
-            <User profilePic={profilePic} firstName={firstName} lastName={lastName} username={username} />
+            <User profilePicUrl={profilePicUrl} firstName={firstName} lastName={lastName} username={username} />
 
             <ThemedView className='pl-4'>
                 <ThemedText darkColor='#ffffff' type='defaultSemiBold'>
@@ -25,11 +25,11 @@ const PostCard = ({ message, repliesCount, likes, author: { firstName, lastName,
             <ThemedView className='flex-row justify-end px-4 gap-x-8'>
                 <ThemedView className='flex-row gap-x-2'>
                     <Icon name="hearto" size={20} color={colors.text} />
-                    <ThemedText>{likes}</ThemedText>
+                    <ThemedText>{likes?.length ?? 0}</ThemedText>
                 </ThemedView>
                 <ThemedView className='flex-row gap-x-2'>
                     <Icon name="message1" size={20} color={colors.text} />
-                    <ThemedText>{repliesCount}</ThemedText>
+                    <ThemedText>{replies?.length ?? 0}</ThemedText>
                 </ThemedView>
             </ThemedView>
 

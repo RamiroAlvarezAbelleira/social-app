@@ -4,6 +4,6 @@ export type PostType = {
     id: number;
     author: UserType;
     message: string;
-    likes: number;
-    repliesCount: number;
+    likes: Array<string>;
+    replies: Array<string>;
 }
