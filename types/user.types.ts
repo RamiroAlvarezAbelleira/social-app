@@ -2,7 +2,7 @@ export type UserType = {
     firstName: string;
     lastName: string;
     username: string;
-    profilePic: string;
+    profilePicUrl: string;
     followers?: Array<UserType>
     following?: Array<UserType>
 }

@@ -8,14 +8,14 @@ interface UserProps extends UserType {
     userProfile?: Boolean
 }
 
-const User = ({ profilePic, firstName, lastName, username, userProfile }: UserProps) => {
+const User = ({ profilePicUrl, firstName, lastName, username, userProfile }: UserProps) => {
     const imageSize = userProfile ? "w-[65px] h-[65px]" : "w-[50px] h-[50px]"
     const textSize = userProfile ? "title" : "defaultSemiBold"
     return (
         <ThemedView className='flex-row items-center gap-x-4'>
             <ThemedView>
                 <Image
-                    source={{ uri: profilePic }}
+                    source={{ uri: profilePicUrl }}
                     className={`${imageSize} rounded-full`}
                 />
             </ThemedView>

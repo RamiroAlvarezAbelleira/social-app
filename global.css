@@ -11,3 +11,7 @@
     --color-primary: #000;
     --color-secondary: #fff;
 }
+
+.custom-h {
+    height: calc(100% - 20px);
+}
