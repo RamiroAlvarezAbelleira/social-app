@@ -1,7 +1,7 @@
 import { UserType } from "./user.types";
 
 export type PostType = {
-    id: number;
+    _id: string;
     author: UserType;
     message: string;
     likes: Array<string>;
