@@ -4,17 +4,16 @@ import User from './User'
 import { Image } from 'react-native'
 import { ThemedText } from '../ui/ThemedText'
 import HBar from '../ui/HBar/HBar'
+import { UserType } from '@/types/user.types'
 
-const mockUser = { firstName: "John", lastName: "Doe", username: "johndoe", profilePic: "https://randomuser.me/api/portraits/men/1.jpg" }
-
-const Profile = () => {
+const Profile = ({ username, firstName, lastName, profilePicUrl }: UserType) => {
     return (
         <ThemedView className='gap-y-4 mx-4'>
-            <User userProfile profilePic={mockUser.profilePic} firstName={mockUser.firstName} lastName={mockUser.lastName} username={mockUser.username} />
+            <User userProfile profilePicUrl={profilePicUrl} firstName={firstName} lastName={lastName} username={username} />
 
             <ThemedView className='flex-row ml-4 gap-x-2 items-center'>
                 <Image
-                    source={{ uri: mockUser.profilePic }}
+                    source={{ uri: profilePicUrl }}
                     className='w-[25px] h-[25px] rounded-full'
                 />
                 <ThemedText darkColor='#c0c0c0'>3 Followers</ThemedText>

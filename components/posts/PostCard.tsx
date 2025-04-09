@@ -8,20 +8,25 @@ import User from '../users/User'
 import PressableView from '../ui/PressableView'
 import { useRouter } from 'expo-router'
 
-const PostCard = ({ _id, message, replies, likes, author: { firstName, lastName, profilePicUrl, username } }: PostType) => {
+const PostCard = ({ _id, message, replies, likes, author }: PostType) => {
     const { colors } = useTheme();
     const router = useRouter()
     const goToPost = () => {
         router.push(`/posts/${_id}`)
+    }
+
+    const goToUserProfile = () => {
+        router.push(`/users/${author._id}`)
     }
     return (
         <ThemedView
             className={`gap-y-5 mx-4 mt-5 pb-5 border-b-[2px]`}
             style={{ borderColor: colors.border }}
         >
+            <PressableView onPressFunc={() => goToUserProfile()}>
+                <User profilePicUrl={author.profilePicUrl} firstName={author.firstName} lastName={author.lastName} username={author.username} />
+            </PressableView>
 
-            <User profilePicUrl={profilePicUrl} firstName={firstName} lastName={lastName} username={username} />
-            
             <PressableView onPressFunc={() => goToPost()}>
                 <ThemedView className='pl-4'>
                     <ThemedText darkColor='#ffffff' type='defaultSemiBold'>
