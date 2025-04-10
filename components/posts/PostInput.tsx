@@ -11,7 +11,7 @@ import User from '../users/User'
 
 const PostInput = () => {
     const [message, setMessage] = useState<string>('')
-    const { mutate, isError, isPending } = useCreatePost()
+    const { mutate, isError, isPending, reset } = useCreatePost()
     const { colors } = useTheme()
     const router = useRouter()
     const queryClient = useQueryClient()
@@ -47,8 +47,11 @@ const PostInput = () => {
                         :
 
                         isError ?
-                            <ThemedView className="h-3/4 items-center justify-center">
+                            <ThemedView className="h-3/4 gap-y-5 items-center justify-center">
                                 <ThemedText>There was an issue, please try again later</ThemedText>
+                                <CustomButton onPressFunc={() => reset()}>
+                                    <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Reload</ThemedText>
+                                </CustomButton>
                             </ThemedView>
                             :
 
