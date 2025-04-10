@@ -17,9 +17,11 @@ const FollowUserCard = ({ profilePicUrl, firstName, lastName, username }: UserTy
             style={{ borderColor: colors.border }}
         >
             <User profilePicUrl={profilePicUrl} firstName={firstName} lastName={lastName} username={username} />
-            <CustomButton onPressFunc={() => followFunction()}>
-                <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Follow</ThemedText>
-            </CustomButton>
+            <ThemedView>
+                <CustomButton onPressFunc={() => followFunction()}>
+                    <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Follow</ThemedText>
+                </CustomButton>
+            </ThemedView>
         </ThemedView>
     )
 }

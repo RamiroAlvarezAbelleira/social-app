@@ -47,8 +47,10 @@ const CustomButton = ({ children, onPressFunc, style }: ButtonProps) => {
             onPressOut={(e) => {
                 handlePress(e)
             }}
+            className='w-full'
         >
             <Animated.View
+            className='w-full'
                 style={[
                     animatedStyle,
                     { paddingVertical: 10, paddingHorizontal: 20, borderRadius: 8, backgroundColor: BgColor },

@@ -8,7 +8,11 @@ import User from '../users/User'
 import PressableView from '../ui/PressableView'
 import { useRouter } from 'expo-router'
 
-const PostCard = ({ _id, message, replies, likes, author }: PostType) => {
+interface PostCardProps extends PostType {
+    isParent: boolean
+}
+
+const PostCard = ({ _id, message, replies, likes, author, isParent }: PostCardProps) => {
     const { colors } = useTheme();
     const router = useRouter()
     const goToPost = () => {
@@ -20,15 +24,18 @@ const PostCard = ({ _id, message, replies, likes, author }: PostType) => {
     }
     return (
         <ThemedView
-            className={`gap-y-5 mx-4 mt-5 pb-5 border-b-[2px]`}
+            className={`mx-4 ${isParent ? "gap-y-5 " : "pl-1.5 pb-4"} mt-5 border-b-[2px]`}
             style={{ borderColor: colors.border }}
         >
             <PressableView onPressFunc={() => goToUserProfile()}>
-                <User profilePicUrl={author.profilePicUrl} firstName={author.firstName} lastName={author.lastName} username={author.username} />
+                <User size={!isParent ? 'small' : undefined} profilePicUrl={author.profilePicUrl} firstName={author.firstName} lastName={author.lastName} username={author.username} />
             </PressableView>
 
             <PressableView onPressFunc={() => goToPost()}>
-                <ThemedView className='pl-4'>
+                <ThemedView className={`pl-4 ${!isParent && "flex-row pb-4"}`}>
+                    {!isParent &&
+                    <ThemedView className='w-[40px]'></ThemedView>
+                    }
                     <ThemedText darkColor='#ffffff' type='defaultSemiBold'>
                         {message}
                     </ThemedText>
@@ -44,7 +51,13 @@ const PostCard = ({ _id, message, replies, likes, author }: PostType) => {
                     <ThemedText>{replies?.length ?? 0}</ThemedText>
                 </ThemedView>
             </ThemedView>
+            {
+                isParent &&
 
+                <ThemedView className='border-t-[2px]' style={{ borderColor: colors.border }}>
+                    <ThemedText darkColor='#ffffff' type='defaultSemiBold' className='py-2'>Replies</ThemedText>
+                </ThemedView>
+            }
         </ThemedView>
     )
 }

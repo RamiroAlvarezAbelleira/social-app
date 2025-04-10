@@ -17,7 +17,7 @@ const PostInput = () => {
     const queryClient = useQueryClient()
     const onSubmit = () => {
         mutate(
-            { message: message, userId: "67f6b4b9358a1571318f507a" },
+            { message: message, userId: "67f6b2eb0a784c39a15ad775" },
             {
                 onSuccess: () => {
                     queryClient.invalidateQueries({ queryKey: ['posts'] })
@@ -70,12 +70,12 @@ const PostInput = () => {
                 }
 
             </ThemedView>
-            <ThemedView className='flex-row justify-end mx-4'>
+            <ThemedView className='flex-row w-full px-4'>
                 {
                     isPending ?
                         <ThemedText>Pending</ThemedText>
                         :
-                        <CustomButton style={{ width: 100 }} onPressFunc={() => onSubmit()}>
+                        <CustomButton onPressFunc={() => onSubmit()}>
                             <ThemedText className="font-semibold text-center" lightColor="#ECEDEE" darkColor="#11181C">Post</ThemedText>
                         </CustomButton>
                 }

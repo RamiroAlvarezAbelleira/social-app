@@ -11,7 +11,7 @@ export const fetchPostById = async (id: string) => {
     return response.data
 }
 
-export const createPost = async ({ message, userId }: createPostType): Promise<PostType> => {
-    const response = await axios.post<PostType>("/posts", { message, userId })
+export const createPost = async ({ message, userId, postId }: createPostType): Promise<PostType> => {
+    const response = await axios.post<PostType>("/posts", { message, userId, postId })
     return response.data
 }
