@@ -32,7 +32,7 @@ const PostCard = ({ _id, message, replies, likes, author, isParent }: PostCardPr
             </PressableView>
 
             <PressableView onPressFunc={() => goToPost()}>
-                <ThemedView className={`pl-4 ${!isParent && "flex-row pb-4"}`}>
+                <ThemedView className={`pl-4 max-w-[80%] ${!isParent && "flex-row pb-4"}`}>
                     {!isParent &&
                     <ThemedView className='w-[40px]'></ThemedView>
                     }

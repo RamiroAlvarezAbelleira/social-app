@@ -5,18 +5,32 @@ import { TextInput } from 'react-native'
 import CustomButton from '../ui/CustomButton'
 import { ThemedText } from '../ui/ThemedText'
 import { ThemedView } from '../ui/ThemedView'
+import { useQueryClient } from '@tanstack/react-query'
 
-const ReplyInput = () => {
+interface ReplyProps {
+    postId: string
+}
+
+const ReplyInput = ({ postId }: ReplyProps) => {
+
     const [message, setMessage] = useState<string>('')
     const { mutate, isError, isPending, reset } = useCreatePost()
     const { colors } = useTheme()
+    const queryClient = useQueryClient()
+
     const onSubmit = () => {
+        if (!postId) {
+            console.log("Parent post id not found")
+            return
+        }
         mutate(
-            { message: message, userId: "67f6b2eb0a784c39a15ad775", postId: "67f806b725ef0ca69f32fe33" },
+            { message: message, userId: "67f6b2eb0a784c39a15ad775", postId: postId },
             {
                 onSuccess: () => {
                     setMessage('')
                     console.log("reply created successfully")
+                    queryClient.invalidateQueries({ queryKey: ['post', postId] })
+                    queryClient.invalidateQueries({ queryKey: ['posts'] })
                 },
                 onError: (error) => {
                     console.error("Error al crear el post:", error.message);
@@ -26,7 +40,7 @@ const ReplyInput = () => {
     }
 
     return (
-        <ThemedView className='mx-4 gap-x-4 absolute bottom-16 flex-row justify-between' style={{backgroundColor: 'transparent'}}>
+        <ThemedView className='mx-4 gap-x-4 absolute bottom-16 flex-row justify-between' style={{ backgroundColor: 'transparent' }}>
             <TextInput
                 multiline={true}
                 style={{

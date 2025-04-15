@@ -50,7 +50,7 @@ const PostDetail = () => {
                             />
                         </ThemedView>
             }
-            <ReplyInput />
+            <ReplyInput postId={id as string} />
         </ThemedView>
     )
 }
