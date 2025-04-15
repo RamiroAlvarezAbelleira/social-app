@@ -1,8 +1,8 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
-import { useState } from "react";
-import { View, TextInput, Button } from "react-native";
 import { ThemedView } from "@/components/ui/ThemedView";
+import { auth } from "@/lib/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useState } from "react";
+import { Button, TextInput } from "react-native";
 
 export default function RegisterScreen() {
   const [email, setEmail] = useState('');
