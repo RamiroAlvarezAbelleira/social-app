@@ -3,11 +3,17 @@ import CustomButton from "@/components/ui/CustomButton";
 import HBar from "@/components/ui/HBar/HBar";
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
+import { useAuth } from "@/context/AuthContext";
 import { usePosts } from "@/hooks/query/usePosts";
+import { Redirect } from "expo-router";
 import { FlatList } from "react-native";
 
 export default function HomeScreen() {
   const { isLoading, isError, data, refetch } = usePosts()
+  const {user} = useAuth()
+  if (!user) {
+return <Redirect href={"/register"}/>
+  }
   return (
     <ThemedView mainContainer className="flex-1">
 
