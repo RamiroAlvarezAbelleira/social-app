@@ -1,18 +1,15 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "@/lib/firebase";
-import { useState } from "react";
-import { View, TextInput, Button, Text } from "react-native";
-import { ThemedView } from "@/components/ui/ThemedView";
-import { ScrollView } from "react-native";
-import { ThemedText } from "@/components/ui/ThemedText";
-import CustomInput from "@/components/ui/CustomInput";
-import { useRouter } from "expo-router";
-import PressableView from "@/components/ui/PressableView";
-import { useTheme } from "@react-navigation/native";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@/schemas/loginSchema";
 import CustomButton from "@/components/ui/CustomButton";
+import CustomInput from "@/components/ui/CustomInput";
+import PressableView from "@/components/ui/PressableView";
+import { ThemedText } from "@/components/ui/ThemedText";
+import { ThemedView } from "@/components/ui/ThemedView";
+import { auth } from "@/lib/firebase";
+import { loginSchema } from "@/schemas/loginSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTheme } from "@react-navigation/native";
+import { useRouter } from "expo-router";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useForm } from "react-hook-form";
 
 type LoginFormData = {
   email: string;
@@ -35,11 +32,9 @@ export default function LoginScreen() {
       console.log("Logged in");
     } catch (err) {
       console.error(err);
+    } finally {
+      router.push("/")
     }
-  };
-  
-  const test = async (data: LoginFormData) => {
-    console.log(data)
   };
 
   const goToRegister = () => {
@@ -77,7 +72,7 @@ export default function LoginScreen() {
       </ThemedView>
 
       <ThemedView className="items-center px-4 absolute bottom-16 w-full">
-        <CustomButton onPressFunc={handleSubmit(test)}>
+        <CustomButton onPressFunc={handleSubmit(login)}>
           <ThemedText
             className="font-semibold text-center"
             lightColor="#ECEDEE"

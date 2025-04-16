@@ -1,28 +1,28 @@
+import CustomButton from '@/components/ui/CustomButton'
 import { ThemedText } from '@/components/ui/ThemedText'
 import { ThemedView } from '@/components/ui/ThemedView'
 import Profile from '@/components/users/Profile'
-import { useUserById } from '@/hooks/query/useUsers'
+import { useAuth } from '@/context/AuthContext'
+import { useRouter } from 'expo-router'
 import React from 'react'
 
 
 const profile = () => {
-    const { data, isLoading, isError } = useUserById("67f6b4b9358a1571318f507a")
+    const { dbUser, logout } = useAuth()
+    const router = useRouter()
+    const logoutFunc = () => {
+        logout()
+        router.push("/login")
+    }
     return (
         <ThemedView mainContainer className='mt-5'>
-            {
-                isLoading ?
-                    <ThemedView className="w-full h-full pb-[144px] items-center justify-center">
-                        <ThemedText>Loading</ThemedText>
-                    </ThemedView>
-                    :
+            <ThemedView className='absolute right-4 top-[65px] z-[10]'>
+                <CustomButton onPressFunc={logoutFunc}>
+                    <ThemedText className="font-semibold text-center" lightColor="#ECEDEE" darkColor="#11181C">Logout</ThemedText>
+                </CustomButton>
+            </ThemedView>
 
-                    isError ?
-                        <ThemedView className="w-full h-full pb-[144px] items-center justify-center">
-                            <ThemedText>Error</ThemedText>
-                        </ThemedView>
-                        :
-                        <Profile {...data} />
-            }
+            {dbUser && <Profile {...dbUser} />}
         </ThemedView>
     )
 }

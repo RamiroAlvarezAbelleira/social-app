@@ -1,16 +1,15 @@
+import { UserType } from '@/types/user.types'
 import React from 'react'
+import { Image } from 'react-native'
+import HBar from '../ui/HBar/HBar'
+import { ThemedText } from '../ui/ThemedText'
 import { ThemedView } from '../ui/ThemedView'
 import User from './User'
-import { Image } from 'react-native'
-import { ThemedText } from '../ui/ThemedText'
-import HBar from '../ui/HBar/HBar'
-import { UserType } from '@/types/user.types'
 
 const Profile = ({ username, firstName, lastName, profilePicUrl }: UserType) => {
     return (
         <ThemedView className='gap-y-4 mx-4'>
             <User userProfile profilePicUrl={profilePicUrl} firstName={firstName} lastName={lastName} username={username} />
-
             <ThemedView className='flex-row ml-4 gap-x-2 items-center'>
                 <Image
                     source={{ uri: profilePicUrl }}
