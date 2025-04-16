@@ -10,9 +10,9 @@ import { FlatList } from "react-native";
 
 export default function HomeScreen() {
   const { isLoading, isError, data, refetch } = usePosts()
-  const {user} = useAuth()
+  const { user } = useAuth()
   if (!user) {
-return <Redirect href={"/register"}/>
+    return <Redirect href={"/register"} />
   }
   return (
     <ThemedView mainContainer className="flex-1">
