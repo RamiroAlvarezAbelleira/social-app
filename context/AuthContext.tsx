@@ -37,21 +37,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
-      console.log("entre al unsubscribe")
       const isRegistering = await AsyncStorage.getItem("isRegistering");
       if (firebaseUser && !isRegistering) {
-        console.log("entre al if")
         const idToken = await firebaseUser.getIdToken()
-        console.log("token", idToken)
         try {
           const response = await loginUser({ idToken })
-          console.log(response)
           setDbUser(response)
         } catch (error) {
           console.error("User not found", error)
           setDbUser(null)
         }
-
       } else {
         setDbUser(null)
       }

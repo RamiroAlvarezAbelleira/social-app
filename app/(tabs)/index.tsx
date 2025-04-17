@@ -12,7 +12,7 @@ export default function HomeScreen() {
   const { isLoading, isError, data, refetch } = usePosts()
   const { user } = useAuth()
   if (!user) {
-    return <Redirect href={"/register"} />
+    return <Redirect href={"/login"} />
   }
   return (
     <ThemedView mainContainer className="flex-1">
