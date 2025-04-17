@@ -4,6 +4,7 @@ import PressableView from "@/components/ui/PressableView";
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
 import { useAuth } from "@/context/AuthContext";
+import { useThemeColor } from "@/hooks/useThemeColor";
 import { auth } from "@/lib/firebase";
 import { registerSchema } from "@/schemas/registerSchema";
 import { registerUser } from "@/services/users";
@@ -11,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useTheme } from "@react-navigation/native";
 import { useRouter } from "expo-router";
+import { FirebaseError } from "firebase/app";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useForm } from "react-hook-form";
 import { ScrollView } from "react-native";
@@ -34,10 +36,14 @@ export default function RegisterScreen() {
 
   const { colors } = useTheme()
 
-  const { setDbUser } = useAuth()
+  const btnTextColor = useThemeColor({}, "buttonText")
+  const errorColor = useThemeColor({}, "error")
+
+  const { setDbUser, authError, setError } = useAuth()
 
   const register = async (data: RegisterFormData) => {
     const { email, username, firstName, lastName, profilePicUrl, password } = data
+    setError(null)
     try {
       await AsyncStorage.setItem("isRegistering", "true");
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -50,15 +56,17 @@ export default function RegisterScreen() {
       setDbUser(response)
 
       console.log("User registered", response);
-    } catch (err) {
-      console.error(err);
-    } finally {
+
       router.push("/")
+    } catch (err) {
+      setError(err)
+    } finally {
       await AsyncStorage.removeItem("isRegistering");
     }
   };
 
   const goToLogin = () => {
+    setError(null)
     router.push('/login')
   }
 
@@ -68,6 +76,17 @@ export default function RegisterScreen() {
         <ThemedView className="items-center h-[100] justify-center">
           <ThemedText>LOGO</ThemedText>
         </ThemedView>
+        {
+          authError &&
+          <ThemedText
+            lightColor={errorColor}
+            darkColor={errorColor}
+            className="text-center"
+            type="defaultSemiBold"
+          >
+            {authError}
+          </ThemedText>
+        }
         <CustomInput
           name="email"
           placeholder="email@email.com"
@@ -105,6 +124,17 @@ export default function RegisterScreen() {
           error={errors.password?.message}
           secureTextEntry
         />
+        {
+          authError &&
+          <ThemedText
+            lightColor={errorColor}
+            darkColor={errorColor}
+            className="text-center"
+            type="defaultSemiBold"
+          >
+            {authError}
+          </ThemedText>
+        }
         <ThemedView className="pb-[150px] flex-row justify-center mx-4 gap-x-2">
           <ThemedText>
             Already have an account?
@@ -122,8 +152,8 @@ export default function RegisterScreen() {
         <CustomButton onPressFunc={handleSubmit(register)}>
           <ThemedText
             className="font-semibold text-center"
-            lightColor="#ECEDEE"
-            darkColor="#11181C"
+            lightColor={btnTextColor}
+            darkColor={btnTextColor}
           >
             Register
           </ThemedText>
