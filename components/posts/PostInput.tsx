@@ -1,8 +1,9 @@
+import { useAuth } from '@/context/AuthContext'
 import { useCreatePost } from '@/hooks/query/usePosts'
 import { useTheme } from '@react-navigation/native'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { TextInput } from 'react-native'
 import CustomButton from '../ui/CustomButton'
 import { ThemedText } from '../ui/ThemedText'
@@ -11,34 +12,71 @@ import User from '../users/User'
 
 const PostInput = () => {
     const [message, setMessage] = useState<string>('')
+    const [postError, setPostError] = useState<string | null>(null)
+    const [idToken, setIdToken] = useState<string | null>(null)
+    const { dbUser, logout, user } = useAuth()
     const { mutate, isError, isPending, reset } = useCreatePost()
     const { colors } = useTheme()
     const router = useRouter()
     const queryClient = useQueryClient()
-    const onSubmit = () => {
-        mutate(
-            { message: message, userId: "67f6b2eb0a784c39a15ad775" },
-            {
-                onSuccess: () => {
-                    queryClient.invalidateQueries({ queryKey: ['posts'] })
 
-                    router.replace('/')
-                },
-                onError: (error) => {
-                    console.error("Error al crear el post:", error.message);
+    useEffect(() => {
+        setIdTokenAsync()
+        setPostError(null)
+        if (!dbUser) {
+            setPostError("Something went wrong. Try re logging")
+        }
+    }, [dbUser])
+
+    const setIdTokenAsync = async () => {
+        setIdToken(null)
+        if (user) {
+            const token = await user?.getIdToken()
+            setIdToken(token)
+        }
+    }
+
+    const onSubmit = () => {
+        setPostError(null)
+        if (dbUser && dbUser._id && idToken) {
+            mutate(
+                { message: message, userId: dbUser._id, idToken },
+                {
+                    onSuccess: () => {
+                        queryClient.invalidateQueries({ queryKey: ['posts'] })
+
+                        router.push('/')
+                    },
+                    onError: (error) => {
+                        console.error("Error al crear el post", error.message)
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            setPostError("Something went wrong. Try re logging")
+        }
+
+    }
+
+    const logoutFunc = () => {
+        reset()
+        logout()
+        router.push("/login")
     }
 
     return (
         <ThemedView className='pb-4 mt-5 flex-1 justify-between'>
             <ThemedView className='mx-4 gap-y-4'>
-                <User
-                    profilePicUrl={"https://randomuser.me/api/portraits/men/1.jpg"}
-                    firstName={"John"}
-                    lastName={"Doe"}
-                    username={"johndoe"} />
+                {
+                    dbUser &&
+                    <User
+                        profilePicUrl={dbUser.profilePicUrl}
+                        firstName={dbUser.firstName}
+                        lastName={dbUser.lastName}
+                        username={dbUser.username}
+                    />
+                }
+
                 {
                     isPending ?
                         <ThemedView className="h-3/4 items-center justify-center">
@@ -47,12 +85,20 @@ const PostInput = () => {
                         :
 
                         isError ?
-                            <ThemedView className="h-3/4 gap-y-5 items-center justify-center">
-                                <ThemedText>There was an issue, please try again later</ThemedText>
-                                <CustomButton onPressFunc={() => reset()}>
-                                    <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Reload</ThemedText>
-                                </CustomButton>
-                            </ThemedView>
+                            postError ?
+                                <ThemedView className="h-3/4 gap-y-5 items-center justify-center">
+                                    <ThemedText>{postError}</ThemedText>
+                                    <CustomButton onPressFunc={logoutFunc}>
+                                        <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Reload</ThemedText>
+                                    </CustomButton>
+                                </ThemedView>
+                                :
+                                <ThemedView className="h-3/4 gap-y-5 items-center justify-center">
+                                    <ThemedText>There was an issue, please try again later</ThemedText>
+                                    <CustomButton onPressFunc={() => reset()}>
+                                        <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Reload</ThemedText>
+                                    </CustomButton>
+                                </ThemedView>
                             :
 
                             <TextInput

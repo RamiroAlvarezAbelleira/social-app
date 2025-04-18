@@ -55,8 +55,6 @@ export default function RegisterScreen() {
 
       setDbUser(response)
 
-      console.log("User registered", response);
-
       router.push("/")
     } catch (err) {
       setError(err)

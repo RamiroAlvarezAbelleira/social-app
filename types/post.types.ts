@@ -11,5 +11,6 @@ export type PostType = {
 export type createPostType = {
     message: string,
     userId: string,
-    postId?: string
+    postId?: string,
+    idToken: string
 }
