@@ -27,9 +27,11 @@ export default function HomeScreen() {
           isError ?
             <ThemedView className="w-full h-full pb-[144px] gap-y-5 items-center justify-center">
               <ThemedText>Something went wrong. Please try again later</ThemedText>
-              <CustomButton onPressFunc={() => refetch()}>
-                <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Reload</ThemedText>
-              </CustomButton>
+              <ThemedView>
+                <CustomButton onPressFunc={() => refetch()}>
+                  <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Reload</ThemedText>
+                </CustomButton>
+              </ThemedView>
             </ThemedView>
             :
             data && <FlatList
