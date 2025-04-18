@@ -1,6 +1,7 @@
 import PostCard from "@/components/posts/PostCard";
 import CustomButton from "@/components/ui/CustomButton";
 import HBar from "@/components/ui/HBar/HBar";
+import HomeSkeleton from "@/components/ui/skeletonLoaders/screens/HomeSkeleton";
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
 import { useAuth } from "@/context/AuthContext";
@@ -20,9 +21,7 @@ export default function HomeScreen() {
       <HBar tabs={["For You", "Followed"]} defaultTab="For You" />
       {
         isLoading ?
-          <ThemedView className="w-full h-full pb-[144px] items-center justify-center">
-            <ThemedText>Loading</ThemedText>
-          </ThemedView>
+          <HomeSkeleton />
           :
           isError ?
             <ThemedView className="w-full h-full pb-[144px] gap-y-5 items-center justify-center">
