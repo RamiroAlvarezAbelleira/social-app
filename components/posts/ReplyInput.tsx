@@ -1,42 +1,72 @@
+import { useAuth } from '@/context/AuthContext'
 import { useCreatePost } from '@/hooks/query/usePosts'
+import { useThemeColor } from '@/hooks/useThemeColor'
 import { useTheme } from '@react-navigation/native'
-import React, { useState } from 'react'
+import { useQueryClient } from '@tanstack/react-query'
+import React, { useEffect, useState } from 'react'
 import { TextInput } from 'react-native'
 import CustomButton from '../ui/CustomButton'
 import { ThemedText } from '../ui/ThemedText'
 import { ThemedView } from '../ui/ThemedView'
-import { useQueryClient } from '@tanstack/react-query'
 
 interface ReplyProps {
     postId: string
 }
 
 const ReplyInput = ({ postId }: ReplyProps) => {
-
+    const { user, dbUser } = useAuth()
     const [message, setMessage] = useState<string>('')
-    const { mutate, isError, isPending, reset } = useCreatePost()
+    const [idToken, setIdToken] = useState<string | null>(null)
+    const [error, setError] = useState<string | null>(null)
+
+    const { mutate, isPending, reset } = useCreatePost()
     const { colors } = useTheme()
+    const errorColor = useThemeColor({}, "error")
+
     const queryClient = useQueryClient()
 
+    useEffect(() => {
+        setIdTokenAsync()
+        setError(null)
+        if (!dbUser) {
+            setError("Something went wrong. Try re logging")
+        }
+    }, [dbUser])
+
+    const setIdTokenAsync = async () => {
+        setIdToken(null)
+        if (user) {
+            const token = await user?.getIdToken()
+            setIdToken(token)
+        }
+    }
+
     const onSubmit = () => {
+        setError(null)
         if (!postId) {
-            console.log("Parent post id not found")
+            setError("Parent post id not found")
             return
         }
-        mutate(
-            { message: message, userId: "67f6b2eb0a784c39a15ad775", postId: postId },
-            {
-                onSuccess: () => {
-                    setMessage('')
-                    console.log("reply created successfully")
-                    queryClient.invalidateQueries({ queryKey: ['post', postId] })
-                    queryClient.invalidateQueries({ queryKey: ['posts'] })
-                },
-                onError: (error) => {
-                    console.error("Error al crear el post:", error.message);
+        if (user && idToken && dbUser && dbUser._id) {
+            mutate(
+                { message: message, userId: dbUser._id, postId: postId, idToken },
+                {
+                    onSuccess: () => {
+                        setMessage('')
+                        console.log("reply created successfully")
+                        queryClient.invalidateQueries({ queryKey: ['post', postId] })
+                        queryClient.invalidateQueries({ queryKey: ['posts'] })
+                    },
+                    onError: (error) => {
+                        setMessage("")
+                        setError("Something went wrong. try again later")
+                        console.error("Error al crear el post:", error.message);
+                    }
                 }
-            }
-        );
+            );
+        } else {
+            setError("Unauthorized")
+        }
     }
 
     return (
@@ -45,13 +75,13 @@ const ReplyInput = ({ postId }: ReplyProps) => {
                 multiline={true}
                 style={{
                     color: colors.text,
-                    borderColor: colors.border,
+                    borderColor: error ? errorColor : colors.border,
                     textAlignVertical: "center",
                     backgroundColor: colors.background
                 }}
-                className='py-2 px-4 flex-1 font-semibold border-2 rounded-[8px]'
-                placeholder='Whats on your mind...'
-                placeholderTextColor={colors.text}
+                className={`py-2 px-4 flex-1 font-semibold border-2 rounded-[8px] `}
+                placeholder={`${error ? error : "Whats on your mind..."}`}
+                placeholderTextColor={error ? errorColor : colors.text}
                 value={message}
                 onChangeText={(text) => setMessage(text)}
             />
@@ -60,9 +90,15 @@ const ReplyInput = ({ postId }: ReplyProps) => {
                     isPending ?
                         <ThemedText>Pending</ThemedText>
                         :
-                        <CustomButton onPressFunc={() => onSubmit()}>
-                            <ThemedText className="font-semibold text-center" lightColor="#ECEDEE" darkColor="#11181C">Post</ThemedText>
-                        </CustomButton>
+                        error ?
+                            <CustomButton onPressFunc={() => reset()}>
+                                <ThemedText className="font-semibold text-center" lightColor="#ECEDEE" darkColor="#11181C">Retry</ThemedText>
+                            </CustomButton>
+                            :
+
+                            <CustomButton onPressFunc={() => onSubmit()}>
+                                <ThemedText className="font-semibold text-center" lightColor="#ECEDEE" darkColor="#11181C">Post</ThemedText>
+                            </CustomButton>
                 }
             </ThemedView>
         </ThemedView>

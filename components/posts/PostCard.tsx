@@ -18,7 +18,6 @@ const PostCard = ({ _id, message, replies, likes, author, isParent }: PostCardPr
     const goToPost = () => {
         router.push(`/posts/${_id}`)
     }
-
     const goToUserProfile = () => {
         router.push(`/users/${author._id}`)
     }
@@ -28,7 +27,7 @@ const PostCard = ({ _id, message, replies, likes, author, isParent }: PostCardPr
             style={{ borderColor: colors.border }}
         >
             <PressableView onPressFunc={() => goToUserProfile()}>
-                <User size={!isParent ? 'small' : undefined} profilePicUrl={author.profilePicUrl} firstName={author.firstName} lastName={author.lastName} username={author.username} />
+                <User size={!isParent ? 'small' : undefined} profilePicUrl={author?.profilePicUrl} firstName={author?.firstName} lastName={author?.lastName} username={author?.username} />
             </PressableView>
 
             <PressableView onPressFunc={() => goToPost()}>
