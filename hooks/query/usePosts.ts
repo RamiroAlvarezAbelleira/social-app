@@ -1,4 +1,4 @@
-import { createPost, fetchPostById, fetchPosts } from "@/services/posts";
+import { createPost, fetchPostById, fetchPosts, likePost } from "@/services/posts";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -12,6 +12,12 @@ export const usePosts = () => {
 export const useCreatePost = () => {
     return useMutation({
         mutationFn: createPost
+    })
+}
+
+export const useLikePost = () => {
+    return useMutation({
+        mutationFn: likePost
     })
 }
 

@@ -1,4 +1,4 @@
-import { createPostType, PostType } from "@/types/post.types"
+import { createPostType, likePostType, PostType } from "@/types/post.types"
 import axios from "../lib/axiosInstance"
 
 export const fetchPosts = async () => {
@@ -13,6 +13,15 @@ export const fetchPostById = async (id: string) => {
 
 export const createPost = async ({ message, userId, postId, idToken }: createPostType): Promise<PostType> => {
     const response = await axios.post<PostType>("/posts", { message, userId, postId }, {
+        headers: {
+            Authorization: `Bearer ${idToken}`
+        }
+    })
+    return response.data
+}
+
+export const likePost = async ({ userId, postId, idToken }: likePostType): Promise<PostType> => {
+    const response = await axios.put<PostType>(`/posts/like/${postId}`, { userId }, {
         headers: {
             Authorization: `Bearer ${idToken}`
         }

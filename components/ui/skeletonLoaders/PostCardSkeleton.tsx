@@ -31,6 +31,8 @@ const PostCardSkeleton = ({ isParent }: PostCardProps) => {
                             <View className='w-[95%]'><Skeleton /></View>
                         </View>
                         <Skeleton />
+                        <Skeleton />
+                        <Skeleton />
                         <View className='flex-row w-full justify-start'>
                             <View className='w-[80%]'><Skeleton /></View>
                         </View>

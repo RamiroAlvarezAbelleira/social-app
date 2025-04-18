@@ -40,11 +40,11 @@ const PostDetail = () => {
                         <ThemedView className='mt-5'>
                             <FlatList
                                 data={[data, ...data.replies]}
-                                renderItem={(post) => {
-                                    if (post.item.type === "post") {
-                                        return <PostCard isParent {...post.item} />
+                                renderItem={({item}) => {
+                                    if (item.type === "post") {
+                                        return <PostCard isParent {...item} />
                                     } else {
-                                        return <PostCard {...post.item} />
+                                        return <PostCard {...item} />
                                     }
                                 }}
                             />

@@ -12,7 +12,7 @@ type SkeletonProps = {
 export const Skeleton = ({
   style,
 }: SkeletonProps) => {
-  const opacityAnim = useRef(new Animated.Value(0.1)).current;
+  const opacityAnim = useRef(new Animated.Value(0.6)).current;
 
   useEffect(() => {
     Animated.loop(
@@ -23,7 +23,7 @@ export const Skeleton = ({
           useNativeDriver: true,
         }),
         Animated.timing(opacityAnim, {
-          toValue: 0.3,
+          toValue: 0.6,
           duration: 500,
           useNativeDriver: true,
         }),

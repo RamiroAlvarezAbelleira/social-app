@@ -7,19 +7,50 @@ import { ThemedView } from '../ui/ThemedView'
 import User from '../users/User'
 import PressableView from '../ui/PressableView'
 import { useRouter } from 'expo-router'
+import { useLikePost } from '@/hooks/query/usePosts'
+import { useAuth } from '@/context/AuthContext'
+import { useQueryClient } from '@tanstack/react-query'
 
 interface PostCardProps extends PostType {
     isParent: boolean
 }
 
-const PostCard = ({ _id, message, replies, likes, author, isParent }: PostCardProps) => {
+const PostCard = ({ _id, message, replies, likes, author, isParent, replyTo }: PostCardProps) => {
     const { colors } = useTheme();
     const router = useRouter()
+    const { user, dbUser } = useAuth()
+    const { mutate } = useLikePost()
+    const queryClient = useQueryClient()
+
     const goToPost = () => {
         router.push(`/posts/${_id}`)
     }
+
     const goToUserProfile = () => {
         router.push(`/users/${author._id}`)
+    }
+
+    const likePost = async () => {
+        if (dbUser && dbUser._id && _id && user) {
+            const idToken = await user.getIdToken()
+            mutate({
+                userId: dbUser._id,
+                postId: _id,
+                idToken: idToken
+            },
+                {
+                    onSuccess: () => {
+                        if (replyTo) {
+                            queryClient.invalidateQueries({ queryKey: ['post', replyTo] })
+                        }
+                        queryClient.invalidateQueries({ queryKey: ['post', _id] })
+                        queryClient.invalidateQueries({ queryKey: ['posts'] })
+                    },
+                    onError: (error) => {
+                        console.error(error)
+                    }
+                })
+        }
     }
     return (
         <ThemedView
@@ -33,7 +64,7 @@ const PostCard = ({ _id, message, replies, likes, author, isParent }: PostCardPr
             <PressableView onPressFunc={() => goToPost()}>
                 <ThemedView className={`pl-4 max-w-[80%] ${!isParent && "flex-row pb-4"}`}>
                     {!isParent &&
-                    <ThemedView className='w-[40px]'></ThemedView>
+                        <ThemedView className='w-[40px]'></ThemedView>
                     }
                     <ThemedText darkColor='#ffffff' type='defaultSemiBold'>
                         {message}
@@ -41,14 +72,19 @@ const PostCard = ({ _id, message, replies, likes, author, isParent }: PostCardPr
                 </ThemedView>
             </PressableView>
             <ThemedView className='flex-row justify-end px-4 gap-x-8'>
-                <ThemedView className='flex-row gap-x-2'>
-                    <Icon name="hearto" size={20} color={colors.text} />
-                    <ThemedText>{likes?.length ?? 0}</ThemedText>
-                </ThemedView>
-                <ThemedView className='flex-row gap-x-2'>
-                    <Icon name="message1" size={20} color={colors.text} />
-                    <ThemedText>{replies?.length ?? 0}</ThemedText>
-                </ThemedView>
+                <PressableView onPressFunc={likePost}>
+                    <ThemedView className='flex-row gap-x-2'>
+                        <Icon name="hearto" size={20} color={likes.includes(dbUser?._id ?? "") ? "red" : ""} />
+                        <ThemedText>{likes?.length ?? 0}</ThemedText>
+                    </ThemedView>
+                </PressableView>
+                <PressableView onPressFunc={goToPost}>
+                    <ThemedView className='flex-row gap-x-2'>
+                        <Icon name="message1" size={20} color={colors.text} />
+                        <ThemedText>{replies?.length ?? 0}</ThemedText>
+                    </ThemedView>
+                </PressableView>
+
             </ThemedView>
             {
                 isParent &&
