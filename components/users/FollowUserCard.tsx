@@ -15,7 +15,6 @@ const FollowUserCard = ({ _id, profilePicUrl, firstName, lastName, username }: U
     const { user, dbUser, setDbUser } = useAuth()
     const queryClient = useQueryClient()
     useEffect(() => {
-        console.log(dbUser)
         setIdTokenAsync()
     }, [dbUser])
 

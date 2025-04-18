@@ -2,12 +2,30 @@ import SearchBar from "@/components/ui/SearchBar";
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
 import FollowUserCard from "@/components/users/FollowUserCard";
+import { useAuth } from "@/context/AuthContext";
 import { useUsers } from "@/hooks/query/useUsers";
+import { useEffect, useState } from "react";
 import { FlatList } from "react-native";
 
 export default function TabTwoScreen() {
-  const { isLoading, isError, data } = useUsers()
+  const [idToken, setIdToken] = useState<string>("")
+  const { user } = useAuth()
 
+  useEffect(() => {
+    if (user) {
+      setIdTokenAsync()
+    }
+  }, [user])
+
+  const setIdTokenAsync = async () => {
+    setIdToken("")
+    if (user) {
+      const token = await user?.getIdToken()
+      setIdToken(token)
+    }
+  }
+
+  const { isLoading, isError, data } = useUsers(idToken)
   return (
     <ThemedView mainContainer>
       <SearchBar />

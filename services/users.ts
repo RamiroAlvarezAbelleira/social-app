@@ -1,7 +1,11 @@
 import axios from "../lib/axiosInstance"
 
-export const fetchUsers = async () => {
-    const response = await axios.get("/users")
+export const fetchUsers = async ( id : string) => {
+    const response = await axios.get("/users", {
+        headers: {
+            Authorization: `Bearer ${id}`
+        }
+    })
     return response.data
 }
 
