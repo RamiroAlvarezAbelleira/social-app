@@ -27,11 +27,27 @@ export const registerUser = async ({ email, username, firstName, lastName, profi
     })
     return response.data
 }
+
 interface loginParams {
     idToken: string
 }
+
 export const loginUser = async ({ idToken }: loginParams) => {
     const response = await axios.post("/users/login", {}, {
+        headers: {
+            Authorization: `Bearer ${idToken}`
+        }
+    })
+    return response.data
+}
+
+interface followUnfollowUserParams {
+    idToken: string,
+    followedUserId: string
+}
+
+export const followUnfollowUser = async ({ idToken, followedUserId }: followUnfollowUserParams) => {
+    const response = await axios.put("/users/follow", { followedUserId }, {
         headers: {
             Authorization: `Bearer ${idToken}`
         }

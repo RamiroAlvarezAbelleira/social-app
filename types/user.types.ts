@@ -4,6 +4,6 @@ export type UserType = {
     lastName: string;
     username: string;
     profilePicUrl: string;
-    followers?: Array<UserType>
-    following?: Array<UserType>
+    followers?: Array<string>
+    following?: Array<string>
 }

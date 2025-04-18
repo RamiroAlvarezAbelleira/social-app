@@ -1,5 +1,5 @@
-import { fetchUserById, fetchUsers } from "@/services/users";
-import { useQuery } from "@tanstack/react-query";
+import { fetchUserById, fetchUsers, followUnfollowUser } from "@/services/users";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
 
 export const useUsers = () => {
@@ -13,5 +13,11 @@ export const useUserById = (id: string) => {
     return useQuery({
         queryKey: ['user', id],
         queryFn: ({ queryKey }) => fetchUserById(queryKey[1] as string)
+    })
+}
+
+export const useFollowUnfollowUser = () => {
+    return useMutation({
+        mutationFn: followUnfollowUser
     })
 }
