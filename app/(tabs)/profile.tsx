@@ -3,17 +3,37 @@ import { ThemedText } from '@/components/ui/ThemedText'
 import { ThemedView } from '@/components/ui/ThemedView'
 import Profile from '@/components/users/Profile'
 import { useAuth } from '@/context/AuthContext'
+import { useGetFollowers } from '@/hooks/query/useUsers'
 import { useRouter } from 'expo-router'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 
 const profile = () => {
-    const { dbUser, logout } = useAuth()
+    const { dbUser, logout, user } = useAuth()
+
     const router = useRouter()
+
     const logoutFunc = () => {
         logout()
         router.push("/login")
     }
+    const [idToken, setIdToken] = useState<string>("")
+
+    useEffect(() => {
+        if (user) {
+            setIdTokenAsync()
+        }
+    }, [user])
+
+    const setIdTokenAsync = async () => {
+        setIdToken("")
+        if (user) {
+            const token = await user?.getIdToken()
+            setIdToken(token)
+        }
+    }
+
+    const { data, isError, isLoading, refetch } = useGetFollowers(idToken)
     return (
         <ThemedView mainContainer className='mt-5'>
             {
@@ -26,17 +46,32 @@ const profile = () => {
             }
 
             {
-                dbUser ?
-                    <Profile {...dbUser} />
+                !data && !isLoading && <ThemedView>
+                    <CustomButton onPressFunc={refetch}>
+                        <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">refetch</ThemedText>
+                    </CustomButton>
+                </ThemedView>
+            }
+
+            {
+                dbUser && !isLoading ?
+                    <Profile {...dbUser} followers={data?.followers} following={data?.following} />
                     :
-                    <ThemedView className="w-full h-full pb-[144px] gap-y-5 items-center justify-center">
-                        <ThemedText>Something went wrong. Please try again later</ThemedText>
-                        <ThemedView>
-                            <CustomButton onPressFunc={logoutFunc}>
-                                <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Reload</ThemedText>
-                            </CustomButton>
+                    isError ?
+                        <ThemedView className="w-full h-full pb-[144px] gap-y-5 items-center justify-center">
+                            <ThemedText>Something went wrong. Please try again later</ThemedText>
+                            <ThemedView>
+                                <CustomButton onPressFunc={logoutFunc}>
+                                    <ThemedText className="font-semibold" lightColor="#ECEDEE" darkColor="#11181C">Reload</ThemedText>
+                                </CustomButton>
+                            </ThemedView>
                         </ThemedView>
-                    </ThemedView>
+                        :
+                        <ThemedView className="w-full h-full pb-[144px] gap-y-5 items-center justify-center">
+                            <ThemedText>Loading</ThemedText>
+                        </ThemedView>
+
+
             }
         </ThemedView>
     )
