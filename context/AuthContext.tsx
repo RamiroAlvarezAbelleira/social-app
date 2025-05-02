@@ -69,12 +69,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         const idToken = await firebaseUser.getIdToken()
         try {
           const response = await loginUser({ idToken })
+          setUser(firebaseUser);
           setDbUser(response)
         } catch (error) {
           console.error("User not found", error)
+          setUser(null)
           setDbUser(null)
         }
       } else {
+        setUser(null)
         setDbUser(null)
       }
       setIsLoading(false);
