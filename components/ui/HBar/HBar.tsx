@@ -1,17 +1,16 @@
-import React, { useState } from 'react'
-import { ThemedView } from '../ThemedView'
-import { ThemedText } from '../ThemedText'
+import React, { useState } from 'react';
 import { Pressable } from 'react-native';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
-import { useTheme } from '@react-navigation/native';
+import { useSharedValue } from 'react-native-reanimated';
+import { ThemedView } from '../ThemedView';
 import HBarItem from './HBarItem';
 
 interface HBarProps {
     tabs: Array<string>;
-    defaultTab: string
+    defaultTab: string,
+    setSelectedTab: (tab: string) => void
 }
 
-const HBar = ({ tabs, defaultTab }: HBarProps) => {
+const HBar = ({ tabs, defaultTab, setSelectedTab }: HBarProps) => {
 
     const [pressedValue, setPressedValue] = useState<string>(defaultTab)
 
@@ -19,6 +18,7 @@ const HBar = ({ tabs, defaultTab }: HBarProps) => {
 
     const onPressFunc = (selectedTab: string) => {
         setPressedValue(selectedTab)
+        setSelectedTab(selectedTab)
     }
 
     return (
@@ -32,7 +32,6 @@ const HBar = ({ tabs, defaultTab }: HBarProps) => {
                     }}
                 >
                     <HBarItem pressedValue={pressedValue} tab={tab} />
-
                 </Pressable>
 
             ))}

@@ -1,13 +1,27 @@
 import { UserType } from '@/types/user.types'
-import React from 'react'
+import React, { useState } from 'react'
 import { Image } from 'react-native'
 import HBar from '../ui/HBar/HBar'
 import { ThemedText } from '../ui/ThemedText'
 import { ThemedView } from '../ui/ThemedView'
 import User from './User'
 import { useThemeColor } from '@/hooks/useThemeColor'
+import FollowUserList from './FollowUserList'
 
-const Profile = ({ username, firstName, lastName, profilePicUrl, followers }: UserType) => {
+const tabs = ["Following", "Posted", "Reposted", "Answers"]
+
+interface ProfileProps {
+    _id?: string;
+    firstName: string;
+    lastName: string;
+    username: string;
+    profilePicUrl: string;
+    followers: UserType[],
+    following: UserType[]
+}
+
+const Profile = ({ username, firstName, lastName, profilePicUrl, followers, following }: ProfileProps) => {
+    const [selectedTab, setSelectedTab] = useState<String>('Following')
     const followerColor = useThemeColor({}, "text")
     return (
         <ThemedView className='gap-y-4 mx-4'>
@@ -24,7 +38,24 @@ const Profile = ({ username, firstName, lastName, profilePicUrl, followers }: Us
 
                 <ThemedText darkColor='#c0c0c0'>{followers?.length ?? 0} Followers</ThemedText>
             </ThemedView>
-            <HBar tabs={["Posted", "Reposted", "Answers"]} defaultTab='Posted' />
+            <HBar tabs={tabs} defaultTab='Following' setSelectedTab={setSelectedTab} />
+            {
+                selectedTab === "Following" &&
+                following &&
+                <FollowUserList data={following} />
+            }
+            {
+                selectedTab === "Posted" &&
+                <ThemedText>Posted</ThemedText>
+            }
+            {
+                selectedTab === "Reposted" &&
+                <ThemedText>Reposted</ThemedText>
+            }
+            {
+                selectedTab === "Answers" &&
+                <ThemedText>Answers</ThemedText>
+            }
         </ThemedView>
     )
 }

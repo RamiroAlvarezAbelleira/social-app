@@ -2,6 +2,7 @@ import SearchBar from "@/components/ui/SearchBar";
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
 import FollowUserCard from "@/components/users/FollowUserCard";
+import FollowUserList from "@/components/users/FollowUserList";
 import { useAuth } from "@/context/AuthContext";
 import { useUsers } from "@/hooks/query/useUsers";
 import { useEffect, useState } from "react";
@@ -43,13 +44,7 @@ export default function TabTwoScreen() {
               </ThemedText>
             </ThemedView>
             :
-            <FlatList
-              data={data}
-              renderItem={({ item }) => (
-                <FollowUserCard {...item} />
-              )}
-            />
-
+            <FollowUserList data={data} />
       }
     </ThemedView>
   );
