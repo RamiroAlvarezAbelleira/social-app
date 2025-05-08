@@ -28,6 +28,7 @@ const HBarItem = ({ pressedValue, tab }: HBarItemProps) => {
                     paddingVertical: 10,
                     paddingHorizontal: 20,
                     backgroundColor: colors.background,
+                    zIndex: 100
                 },
             ]}
         >
