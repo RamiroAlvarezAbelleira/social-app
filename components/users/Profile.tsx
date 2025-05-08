@@ -7,6 +7,8 @@ import { ThemedView } from '../ui/ThemedView'
 import User from './User'
 import { useThemeColor } from '@/hooks/useThemeColor'
 import FollowUserList from './FollowUserList'
+import { PostType } from '@/types/post.types'
+import PostCardList from '../posts/PostCardList'
 
 const tabs = ["Following", "Posted", "Reposted", "Answers"]
 
@@ -17,10 +19,11 @@ interface ProfileProps {
     username: string;
     profilePicUrl: string;
     followers: UserType[],
-    following: UserType[]
+    following: UserType[],
+    myPosts: PostType[]
 }
 
-const Profile = ({ username, firstName, lastName, profilePicUrl, followers, following }: ProfileProps) => {
+const Profile = ({ username, firstName, lastName, profilePicUrl, followers, following, myPosts }: ProfileProps) => {
     const [selectedTab, setSelectedTab] = useState<String>('Following')
     const followerColor = useThemeColor({}, "text")
     return (
@@ -46,7 +49,7 @@ const Profile = ({ username, firstName, lastName, profilePicUrl, followers, foll
             }
             {
                 selectedTab === "Posted" &&
-                <ThemedText>Posted</ThemedText>
+                <PostCardList data={myPosts} />
             }
             {
                 selectedTab === "Reposted" &&

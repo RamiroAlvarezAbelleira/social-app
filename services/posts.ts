@@ -6,6 +6,15 @@ export const fetchPosts = async () => {
     return response.data
 }
 
+export const fetchMyPosts = async (idToken: string) => {
+    const response = await axios.get('/posts/my-posts', {
+        headers: {
+            Authorization: `Bearer ${idToken}`
+        }
+    })
+    return response.data
+}
+
 export const fetchPostById = async (id: string) => {
     const response = await axios.get(`/posts/${id}`)
     return response.data

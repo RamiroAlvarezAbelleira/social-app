@@ -1,4 +1,4 @@
-import { createPost, fetchPostById, fetchPosts, likePost } from "@/services/posts";
+import { createPost, fetchMyPosts, fetchPostById, fetchPosts, likePost } from "@/services/posts";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
@@ -6,6 +6,13 @@ export const usePosts = () => {
     return useQuery({
         queryKey: ['posts'],
         queryFn: fetchPosts
+    })
+}
+
+export const useMyPosts = (idToken: string) => {
+    return useQuery({
+        queryKey: ['my-posts'],
+        queryFn: () => fetchMyPosts(idToken)
     })
 }
 

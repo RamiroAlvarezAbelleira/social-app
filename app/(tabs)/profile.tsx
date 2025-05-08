@@ -3,6 +3,7 @@ import { ThemedText } from '@/components/ui/ThemedText'
 import { ThemedView } from '@/components/ui/ThemedView'
 import Profile from '@/components/users/Profile'
 import { useAuth } from '@/context/AuthContext'
+import { useMyPosts } from '@/hooks/query/usePosts'
 import { useGetFollowers } from '@/hooks/query/useUsers'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
@@ -34,6 +35,9 @@ const profile = () => {
     }
 
     const { data, isError, isLoading, refetch } = useGetFollowers(idToken)
+
+    const myPosts = useMyPosts(idToken)
+
     return (
         <ThemedView mainContainer className='mt-5'>
             {
@@ -55,7 +59,7 @@ const profile = () => {
 
             {
                 dbUser && !isLoading ?
-                    <Profile {...dbUser} followers={data?.followers} following={data?.following} />
+                    <Profile {...dbUser} followers={data?.followers} following={data?.following} myPosts={myPosts?.data} />
                     :
                     isError ?
                         <ThemedView className="w-full h-full pb-[144px] gap-y-5 items-center justify-center">

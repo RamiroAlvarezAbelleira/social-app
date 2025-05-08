@@ -6,7 +6,8 @@ export type PostType = {
     message: string;
     likes: Array<string>;
     replies: Array<string>;
-    replyTo?: string
+    replyTo?: string;
+    isParent: boolean
 }
 
 export type createPostType = {

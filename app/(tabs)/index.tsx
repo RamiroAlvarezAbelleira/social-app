@@ -1,4 +1,5 @@
 import PostCard from "@/components/posts/PostCard";
+import PostCardList from "@/components/posts/PostCardList";
 import CustomButton from "@/components/ui/CustomButton";
 import HBar from "@/components/ui/HBar/HBar";
 import HomeSkeleton from "@/components/ui/skeletonLoaders/screens/HomeSkeleton";
@@ -35,12 +36,7 @@ export default function HomeScreen() {
               </ThemedView>
             </ThemedView>
             :
-            data && <FlatList
-              data={data}
-              renderItem={(post) => (
-                <PostCard {...post.item} />
-              )}
-            />
+            data && <PostCardList data={data} />
       }
     </ThemedView>
   );
