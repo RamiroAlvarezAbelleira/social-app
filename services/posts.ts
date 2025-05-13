@@ -15,6 +15,11 @@ export const fetchMyPosts = async (idToken: string) => {
     return response.data
 }
 
+export const fetchUserPosts = async (id: string) => {
+    const response = await axios.get(`/posts/user-posts/${id}`)
+    return response.data
+}
+
 export const fetchPostById = async (id: string) => {
     const response = await axios.get(`/posts/${id}`)
     return response.data
