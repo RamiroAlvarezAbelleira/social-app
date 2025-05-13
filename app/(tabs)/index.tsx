@@ -1,4 +1,3 @@
-import PostCard from "@/components/posts/PostCard";
 import PostCardList from "@/components/posts/PostCardList";
 import CustomButton from "@/components/ui/CustomButton";
 import HBar from "@/components/ui/HBar/HBar";
@@ -9,7 +8,6 @@ import { useAuth } from "@/context/AuthContext";
 import { usePosts } from "@/hooks/query/usePosts";
 import { Redirect } from "expo-router";
 import { useState } from "react";
-import { FlatList } from "react-native";
 
 export default function HomeScreen() {
   const { isLoading, isError, data, refetch } = usePosts()

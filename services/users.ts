@@ -8,12 +8,18 @@ export const fetchUsers = async (id: string) => {
     })
     return response.data
 }
-export const fetchFollowers = async (id: string) => {
-    const response = await axios.get("/users/followers", {
+export const fetchMyFollowers = async (id: string) => {
+    console.log("entre al my: ", id)
+    const response = await axios.get("/users/my-followers", {
         headers: {
             Authorization: `Bearer ${id}`
         }
     })
+    return response.data
+}
+
+export const fetchFollowers = async (id: string) => {
+    const response = await axios.get(`/users/followers/${id}`)
     return response.data
 }
 

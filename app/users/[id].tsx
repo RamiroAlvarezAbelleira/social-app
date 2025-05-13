@@ -1,10 +1,8 @@
-import PostCard from '@/components/posts/PostCard'
 import PressableView from '@/components/ui/PressableView'
 import { ThemedText } from '@/components/ui/ThemedText'
 import { ThemedView } from '@/components/ui/ThemedView'
 import Profile from '@/components/users/Profile'
-import { usePostById } from '@/hooks/query/usePosts'
-import { useUserById } from '@/hooks/query/useUsers'
+import { useGetFollowers, useUserById } from '@/hooks/query/useUsers'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React from 'react'
 
@@ -13,6 +11,8 @@ const UserProfile = () => {
     const { id } = useLocalSearchParams()
 
     const { data, isLoading, isError } = useUserById(id as string)
+
+    const followersInfo = useGetFollowers(id as string)
 
     const router = useRouter();
 
@@ -36,7 +36,7 @@ const UserProfile = () => {
                             <ThemedText>Error</ThemedText>
                         </ThemedView>
                         :
-                        <Profile {...data}/>
+                        <Profile {...data} followers={followersInfo?.data?.followers} following={followersInfo?.data?.following}/>
             }
 
         </ThemedView>

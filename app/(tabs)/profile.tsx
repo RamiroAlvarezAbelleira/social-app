@@ -4,7 +4,7 @@ import { ThemedView } from '@/components/ui/ThemedView'
 import Profile from '@/components/users/Profile'
 import { useAuth } from '@/context/AuthContext'
 import { useMyPosts } from '@/hooks/query/usePosts'
-import { useGetFollowers } from '@/hooks/query/useUsers'
+import { useGetMyFollowers } from '@/hooks/query/useUsers'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 
@@ -18,6 +18,7 @@ const profile = () => {
         logout()
         router.push("/login")
     }
+    
     const [idToken, setIdToken] = useState<string>("")
 
     useEffect(() => {
@@ -34,7 +35,7 @@ const profile = () => {
         }
     }
 
-    const { data, isError, isLoading, refetch } = useGetFollowers(idToken)
+    const { data, isError, isLoading, refetch } = useGetMyFollowers(idToken)
 
     const myPosts = useMyPosts(idToken)
 
