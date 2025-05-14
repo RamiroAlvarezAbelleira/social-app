@@ -9,7 +9,6 @@ export const fetchUsers = async (id: string) => {
     return response.data
 }
 export const fetchMyFollowers = async (id: string) => {
-    console.log("entre al my: ", id)
     const response = await axios.get("/users/my-followers", {
         headers: {
             Authorization: `Bearer ${id}`

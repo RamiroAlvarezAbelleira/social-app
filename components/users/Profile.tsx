@@ -20,10 +20,10 @@ interface ProfileProps {
     profilePicUrl: string;
     followers: UserType[],
     following: UserType[],
-    myPosts: PostType[]
+    posts: PostType[]
 }
 
-const Profile = ({ username, firstName, lastName, profilePicUrl, followers, following, myPosts }: ProfileProps) => {
+const Profile = ({ username, firstName, lastName, profilePicUrl, followers, following, posts }: ProfileProps) => {
     const [selectedTab, setSelectedTab] = useState<String>('Following')
     const followerColor = useThemeColor({}, "text")
     return (
@@ -49,7 +49,7 @@ const Profile = ({ username, firstName, lastName, profilePicUrl, followers, foll
             }
             {
                 selectedTab === "Posted" &&
-                <PostCardList data={myPosts} />
+                <PostCardList data={posts} />
             }
             {
                 selectedTab === "Reposted" &&

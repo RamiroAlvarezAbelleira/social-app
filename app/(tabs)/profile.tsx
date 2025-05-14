@@ -18,7 +18,7 @@ const profile = () => {
         logout()
         router.push("/login")
     }
-    
+
     const [idToken, setIdToken] = useState<string>("")
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const profile = () => {
 
             {
                 dbUser && !isLoading ?
-                    <Profile {...dbUser} followers={data?.followers} following={data?.following} myPosts={myPosts?.data} />
+                    <Profile {...dbUser} followers={data?.followers} following={data?.following} posts={myPosts?.data} />
                     :
                     isError ?
                         <ThemedView className="w-full h-full pb-[144px] gap-y-5 items-center justify-center">

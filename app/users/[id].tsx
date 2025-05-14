@@ -2,6 +2,7 @@ import PressableView from '@/components/ui/PressableView'
 import { ThemedText } from '@/components/ui/ThemedText'
 import { ThemedView } from '@/components/ui/ThemedView'
 import Profile from '@/components/users/Profile'
+import { useUserPosts } from '@/hooks/query/usePosts'
 import { useGetFollowers, useUserById } from '@/hooks/query/useUsers'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React from 'react'
@@ -11,6 +12,8 @@ const UserProfile = () => {
     const { id } = useLocalSearchParams()
 
     const { data, isLoading, isError } = useUserById(id as string)
+
+    const postsInfo = useUserPosts(id as string)
 
     const followersInfo = useGetFollowers(id as string)
 
@@ -36,7 +39,7 @@ const UserProfile = () => {
                             <ThemedText>Error</ThemedText>
                         </ThemedView>
                         :
-                        <Profile {...data} followers={followersInfo?.data?.followers} following={followersInfo?.data?.following}/>
+                        <Profile {...data} followers={followersInfo?.data?.followers} following={followersInfo?.data?.following} posts={postsInfo?.data} />
             }
 
         </ThemedView>
