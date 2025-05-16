@@ -33,9 +33,9 @@ const FollowUserCard = ({ _id, profilePicUrl, firstName, lastName, username }: U
         if (_id && idToken) {
             mutate({ idToken, followedUserId: _id }, {
                 onSuccess: (data) => {
-                    console.log("set db user: ", data)
                     setDbUser(data)
                     queryClient.invalidateQueries({ queryKey: ['users'] })
+                    queryClient.invalidateQueries({ queryKey: ['my-followers'] })
                 },
                 onError: (error) => {
                     console.error("Error: ", error.message)
