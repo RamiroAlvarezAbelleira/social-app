@@ -7,7 +7,7 @@ export const fetchGeneralPosts = async () => {
 }
 
 export const fetchFollowedPosts = async (idToken: string) => {
-    const response = await axios.get('/followed-posts', {
+    const response = await axios.get('/posts/followed', {
         headers: {
             Authorization: `Bearer ${idToken}`
         }

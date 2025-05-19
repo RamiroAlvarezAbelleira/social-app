@@ -5,13 +5,18 @@ import HomeSkeleton from "@/components/ui/skeletonLoaders/screens/HomeSkeleton";
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
 import { useAuth } from "@/context/AuthContext";
-import { useGeneralPosts } from "@/hooks/query/usePosts";
+import { useFollowedPosts, useGeneralPosts } from "@/hooks/query/usePosts";
 import useIdToken from "@/hooks/useIdToken";
 import { Redirect } from "expo-router";
 import { useState } from "react";
 
 export default function HomeScreen() {
-  const { isLoading, isError, data, refetch } = useGeneralPosts()
+  const {
+    isLoading: isLoadingGeneral,
+    isError: isErrorGeneral,
+    data: dataGeneral,
+    refetch: refetchGeneral,
+  } = useGeneralPosts()
   const [selectedTab, setSelectedTab] = useState<string>("For You")
   const { user } = useAuth()
   if (!user) {
@@ -19,6 +24,20 @@ export default function HomeScreen() {
   }
 
   const idToken = useIdToken(user)
+
+  const {
+    isLoading: isLoadingFollowed,
+    isError: isErrorFollowed,
+    data: dataFollowed,
+    refetch: refetchFollowed,
+  } = useFollowedPosts(idToken)
+
+  const isFollowedTab = selectedTab === "Followed";
+  const isLoading = isFollowedTab ? isLoadingFollowed : isLoadingGeneral;
+  const isError = isFollowedTab ? isErrorFollowed : isErrorGeneral;
+  const data = isFollowedTab ? dataFollowed : dataGeneral;
+  const refetch = isFollowedTab ? refetchFollowed : refetchGeneral;
+
   return (
     <ThemedView mainContainer className="flex-1">
 
