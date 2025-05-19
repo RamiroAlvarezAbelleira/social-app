@@ -5,17 +5,20 @@ import HomeSkeleton from "@/components/ui/skeletonLoaders/screens/HomeSkeleton";
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
 import { useAuth } from "@/context/AuthContext";
-import { usePosts } from "@/hooks/query/usePosts";
+import { useGeneralPosts } from "@/hooks/query/usePosts";
+import useIdToken from "@/hooks/useIdToken";
 import { Redirect } from "expo-router";
 import { useState } from "react";
 
 export default function HomeScreen() {
-  const { isLoading, isError, data, refetch } = usePosts()
+  const { isLoading, isError, data, refetch } = useGeneralPosts()
   const [selectedTab, setSelectedTab] = useState<string>("For You")
   const { user } = useAuth()
   if (!user) {
     return <Redirect href={"/login"} />
   }
+
+  const idToken = useIdToken(user)
   return (
     <ThemedView mainContainer className="flex-1">
 

@@ -1,8 +1,17 @@
 import { createPostType, likePostType, PostType } from "@/types/post.types"
 import axios from "../lib/axiosInstance"
 
-export const fetchPosts = async () => {
+export const fetchGeneralPosts = async () => {
     const response = await axios.get('/posts')
+    return response.data
+}
+
+export const fetchFollowedPosts = async (idToken: string) => {
+    const response = await axios.get('/followed-posts', {
+        headers: {
+            Authorization: `Bearer ${idToken}`
+        }
+    })
     return response.data
 }
 

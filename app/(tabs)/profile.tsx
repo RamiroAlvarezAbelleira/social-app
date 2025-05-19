@@ -5,6 +5,7 @@ import Profile from '@/components/users/Profile'
 import { useAuth } from '@/context/AuthContext'
 import { useMyPosts } from '@/hooks/query/usePosts'
 import { useGetMyFollowers } from '@/hooks/query/useUsers'
+import useIdToken from '@/hooks/useIdToken'
 import { useRouter } from 'expo-router'
 import React, { useEffect, useState } from 'react'
 
@@ -19,21 +20,7 @@ const profile = () => {
         router.push("/login")
     }
 
-    const [idToken, setIdToken] = useState<string>("")
-
-    useEffect(() => {
-        if (user) {
-            setIdTokenAsync()
-        }
-    }, [user])
-
-    const setIdTokenAsync = async () => {
-        setIdToken("")
-        if (user) {
-            const token = await user?.getIdToken()
-            setIdToken(token)
-        }
-    }
+    const idToken = useIdToken(user)
 
     const { data, isError, isLoading, refetch } = useGetMyFollowers(idToken)
 
