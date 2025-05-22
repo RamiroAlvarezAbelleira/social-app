@@ -1,11 +1,18 @@
-import { fetchFollowers, fetchMyFollowers, fetchUserById, fetchUsers, followUnfollowUser } from "@/services/users";
+import { fetchFollowers, fetchMyFollowers, fetchUserById, fetchUsers, fetchUsersSearch, followUnfollowUser } from "@/services/users";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 
 export const useUsers = (id: string) => {
     return useQuery({
         queryKey: ['users', id],
-        queryFn: ({ queryKey }) => fetchUsers(queryKey[1] as string)
+        queryFn: () => fetchUsers(id)
+    })
+}
+
+export const useUsersSearch = (query: string) => {
+    return useQuery({
+        queryKey: ['users', 'search', query],
+        queryFn: () => fetchUsersSearch(query)
     })
 }
 
@@ -26,7 +33,7 @@ export const useGetMyFollowers = (id: string) => {
 export const useUserById = (id: string) => {
     return useQuery({
         queryKey: ['user', id],
-        queryFn: ({ queryKey }) => fetchUserById(queryKey[1] as string)
+        queryFn: () => fetchUserById(id)
     })
 }
 

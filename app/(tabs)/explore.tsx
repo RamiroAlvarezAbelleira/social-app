@@ -1,37 +1,28 @@
 import SearchBar from "@/components/ui/SearchBar";
+import { useDebounce } from "use-debounce"
 import { ThemedText } from "@/components/ui/ThemedText";
 import { ThemedView } from "@/components/ui/ThemedView";
-import FollowUserCard from "@/components/users/FollowUserCard";
 import FollowUserList from "@/components/users/FollowUserList";
 import { useAuth } from "@/context/AuthContext";
-import { useUsers } from "@/hooks/query/useUsers";
-import { useEffect, useState } from "react";
-import { FlatList } from "react-native";
+import { useUsers, useUsersSearch } from "@/hooks/query/useUsers";
+import useIdToken from "@/hooks/useIdToken";
+import { useState } from "react";
 
 export default function TabTwoScreen() {
-  const [idToken, setIdToken] = useState<string>("")
+  const [searchInput, setSearchInput] = useState<string>("")
   const { user } = useAuth()
 
-  useEffect(() => {
-    if (user) {
-      setIdTokenAsync()
-    }
-  }, [user])
+  const idToken = useIdToken(user)
+  const [debouncedQuery] = useDebounce(searchInput, 400)
 
-  const setIdTokenAsync = async () => {
-    setIdToken("")
-    if (user) {
-      const token = await user?.getIdToken()
-      setIdToken(token)
-    }
-  }
+  const { isLoading, isError, data } = debouncedQuery
+    ? useUsersSearch(debouncedQuery)
+    : useUsers(idToken)
 
-  const { isLoading, isError, data } = useUsers(idToken)
   return (
     <ThemedView mainContainer>
-      <SearchBar />
+      <SearchBar value={searchInput} onChange={setSearchInput} />
       {
-
         isLoading ?
           <ThemedView className="w-full h-full pb-[144px] items-center justify-center">
             <ThemedText>Loading</ThemedText>

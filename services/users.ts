@@ -1,13 +1,19 @@
 import axios from "../lib/axiosInstance"
 
 export const fetchUsers = async (id: string) => {
-    const response = await axios.get("/users", {
+    const response = await axios.get("/users/explore", {
         headers: {
             Authorization: `Bearer ${id}`
         }
     })
     return response.data
 }
+
+export const fetchUsersSearch = async (query: string) => {
+    const response = await axios.get(`/users/search?query=${query}`)
+    return response.data
+}
+
 export const fetchMyFollowers = async (id: string) => {
     const response = await axios.get("/users/my-followers", {
         headers: {
