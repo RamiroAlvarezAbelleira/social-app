@@ -12,7 +12,8 @@ export const useUsers = (id: string) => {
 export const useUsersSearch = (query: string) => {
     return useQuery({
         queryKey: ['users', 'search', query],
-        queryFn: () => fetchUsersSearch(query)
+        queryFn: () => fetchUsersSearch(query),
+        enabled: query.length > 0,
     })
 }
 
